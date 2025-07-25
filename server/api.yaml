@@ -1,0 +1,4 @@
+openapi: 3.0.2
+info:
+  title: Design My Space API
+  version: 1.0.0
