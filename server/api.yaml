@@ -2,3 +2,31 @@ openapi: 3.0.2
 info:
   title: Design My Space API
   version: 1.0.0
+paths:
+  /test:
+    get:
+      operationId: endpoints.moodboard.test
+      responses:
+        '200':
+          description: Success
+  /moodboard:
+    post:
+      operationId: endpoints.moodboard.generate_moodboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                vibe:
+                  type: string
+                room_type:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
