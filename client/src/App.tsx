@@ -1,17 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import React from 'react'
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-import Home from './pages/Home'
+import Home from "./pages/Home";
+import { Moodboard } from "./pages/Moodboard";
+import RoomBuilderPage from "./pages/RoomBuilder";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <Home/>
-  )
+    <DndProvider backend={HTML5Backend}>
+      <Router>
+        <Routes>
+          <Route element={<Home />} path={"/"} />
+          <Route element={<Moodboard />} path={"/moodboard"} />
+          <Route element={<RoomBuilderPage />} path={"/roombuilder"} />
+        </Routes>
+      </Router>
+    </DndProvider>
+  );
 }
 
-export default App
+export default App;
