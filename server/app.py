@@ -1,25 +1,30 @@
-from flask import Flask, request, jsonify
-from flask_smorest import Api
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from connexion import FlaskApp, middleware
-from starlette.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
+from endpoints.moodboard import generate_moodboard, import_furniture
+
+
 def create_app():
-    app = FlaskApp(__name__)
-    app.add_api("api.yaml")
-    app.add_middleware(
-        CORSMiddleware,
-        position=middleware.MiddlewarePosition.BEFORE_ROUTING,
-        allow_origins="*",
-        allow_methods="*",
-        allow_headers="*",
-        allow_credentials=True
-    )
     load_dotenv()
+    app = Flask(__name__)
+    CORS(app)
+
+    @app.get("/test")
+    def health_check():
+        return jsonify({"message": "Domi API is ready"})
+
+    @app.post("/moodboard")
+    def moodboard():
+        return jsonify(generate_moodboard(request.get_json(silent=True) or {}))
+
+    @app.post("/furniture/import")
+    def furniture_import():
+        result, status = import_furniture(request.get_json(silent=True) or {})
+        return jsonify(result), status
 
     return app
 
-if __name__ == '__main__':
-    app = create_app()
-    app.run(host="localhost", port=5000)
+
+if __name__ == "__main__":
+    create_app().run(host="localhost", port=5000, debug=True)

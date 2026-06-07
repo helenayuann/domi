@@ -1,53 +1,77 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+const features = [
+  {
+    number: "01",
+    title: "Find your direction",
+    copy: "Choose a room and a feeling. Domi gathers a visual starting point in seconds.",
+  },
+  {
+    number: "02",
+    title: "Plan the pieces",
+    copy: "Arrange furniture on a simple floor plan and see what fits before you buy.",
+  },
+  {
+    number: "03",
+    title: "Keep it together",
+    copy: "Import a product from a link and keep your ideas in one focused workspace.",
+  },
+];
 
 export default function Home() {
-    const location = useLocation();
-
-    const navItems = [
-        { name: "Moodboard", path: "/moodboard" },
-        { name: "Room Builder", path: "/roombuilder" },
-    ];
-
-    return (
-        <div className="min-h-screen flex flex-col bg-gray-50">
-            {/* Top Nav Bar */}
-            <nav className="bg-white shadow-md w-full">
-                <div className="max-w-6xl mx-auto px-4">
-                    <ul className="flex space-x-8 py-4">
-                        {navItems.map(({ name, path }) => (
-                            <li key={path}>
-                                <Link
-                                    to={path}
-                                    className={`text-lg font-semibold ${
-                                        location.pathname === path
-                                            ? "text-blue-600 border-b-2 border-blue-600"
-                                            : "text-gray-700 hover:text-blue-600"
-                                    }`}
-                                >
-                                    {name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </nav>
-
-            {/* Main content */}
-            <main className="flex flex-col items-center justify-center flex-grow px-4 text-center">
-                <h1 className="text-5xl font-extrabold mb-6 text-gray-900 mt-16">
-                    Domi
-                </h1>
-                <p className="text-lg text-gray-700 mb-8 max-w-md mx-auto">
-                    Meet Domi. Your personal room design assistant.
-                </p>
-                <Link
-                    to="/moodboard"
-                    className="px-8 py-3 bg-blue-600 text-white rounded-md text-lg font-semibold hover:bg-blue-700 transition"
-                >
-                    Start Designing →
-                </Link>
-            </main>
+  return (
+    <main>
+      <section className="hero">
+        <div className="hero-copy">
+          <p className="eyebrow">Room design, made approachable</p>
+          <h1>A room that feels like you.</h1>
+          <p className="hero-description">
+            Turn a loose idea into a moodboard and a workable layout, without
+            needing to be an interior designer.
+          </p>
+          <div className="hero-actions">
+            <Link className="button button-primary" to="/moodboard">
+              Start with a moodboard
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link className="text-link" to="/roombuilder">
+              Open room planner
+            </Link>
+          </div>
         </div>
-    );
+
+        <div className="hero-art" aria-label="Abstract interior design collage">
+          <div className="hero-swatch hero-swatch-1" />
+          <div className="hero-swatch hero-swatch-2" />
+          <div className="hero-room">
+            <div className="hero-window" />
+            <div className="hero-table" />
+            <div className="hero-chair" />
+            <div className="hero-plant">
+              <i />
+              <i />
+              <i />
+            </div>
+          </div>
+          <p>soft light · warm wood · lived in</p>
+        </div>
+      </section>
+
+      <section className="home-features">
+        <div className="section-heading">
+          <p className="eyebrow">A simple process</p>
+          <h2>From inspiration to a plan.</h2>
+        </div>
+        <div className="feature-grid">
+          {features.map((feature) => (
+            <article className="feature-card" key={feature.number}>
+              <span>{feature.number}</span>
+              <h3>{feature.title}</h3>
+              <p>{feature.copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
 }

@@ -1,40 +1,31 @@
-import React from "react";
 import { useDrag } from "react-dnd";
-
-export interface FurnitureItem {
-    name: string;
-    width: number;
-    height: number;
-    color: string;
-    x?: number;
-    y?: number;
-}
+import type { FurnitureTemplate } from "../pages/RoomBuilder";
 
 interface DragFurnitureProps {
-    item: FurnitureItem;
+  item: FurnitureTemplate;
 }
 
 export function DragFurniture({ item }: DragFurnitureProps) {
-    const [{ isDragging }, drag] = useDrag(() => ({
-        type: "FURNITURE",
-        item,
-        collect: (monitor) => ({
-            isDragging: !!monitor.isDragging(),
-        }),
-    }));
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "FURNITURE",
+    item,
+    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+  }), [item]);
 
-    return drag(
-        <div
-            className="cursor-move p-2 rounded shadow text-white text-xs text-center"
-            style={{
-                opacity: isDragging ? 0.5 : 1,
-                backgroundColor: item.color,
-                width: item.width,
-                height: item.height,
-                marginBottom: "0.5rem",
-            }}
-        >
-            {item.name}
-        </div>
-    );    
+  return drag(
+    <button
+      className="palette-item"
+      style={{ opacity: isDragging ? 0.45 : 1 }}
+      type="button"
+    >
+      <span className="palette-shape" style={{ backgroundColor: item.color }}>
+        {item.icon}
+      </span>
+      <span>
+        <strong>{item.name}</strong>
+        <small>{item.width}" × {item.height}"</small>
+      </span>
+      <span className="drag-handle" aria-hidden="true">⠿</span>
+    </button>,
+  );
 }
